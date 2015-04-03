@@ -9,4 +9,4 @@ It's a command line progress bar for golang.
 Show(0.789)
 ```
 
-![alt screenshot](https://raw.githubusercontent.com/hsiaosiyuan/wcf/master/screenshot.gif)
+![alt screenshot](https://github.com/mconintet/progressbar/blob/master/screenshot.gif?raw=true)
