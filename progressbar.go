@@ -2,6 +2,7 @@ package progressbar
 
 import (
 	"fmt"
+	"sync"
 	"syscall"
 	"unsafe"
 )
@@ -50,6 +51,10 @@ const (
 	remain = 5
 )
 
+var (
+	mutex = &sync.Mutex{}
+)
+
 func Show(percent float32) error {
 	var (
 		ws   *WinSize
@@ -64,6 +69,9 @@ func Show(percent float32) error {
 		pgl int
 		l   int
 	)
+
+	mutex.Lock()
+	defer mutex.Unlock()
 
 	if ws, err = GetWinSize(); err != nil {
 		return err
@@ -96,7 +104,12 @@ func Show(percent float32) error {
 	ps = pg + space
 
 	Clear()
-	fmt.Print(fmt.Sprintf("|%s| %s", ps, num))
+
+	if int(percent) == 1 {
+		fmt.Print(fmt.Sprintf("|%s| %s\n", ps, num))
+	} else {
+		fmt.Print(fmt.Sprintf("|%s| %s", ps, num))
+	}
 
 	return nil
 }
